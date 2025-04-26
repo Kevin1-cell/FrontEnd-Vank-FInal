@@ -1,14 +1,51 @@
-const users = [
-  { username: "cliente1", password: "cliente1", role: "cliente" },
-  { username: "vendedor1", password: "vendedor1", role: "vendedor" },
-  { username: "proveedor1", password: "proveedor1", role: "proveedor" },
-  { username: "kevinherveo14@gmail.com", password: "123", role: "cliente" },
-];
+// services/authService.js
+import ApiConfig from "../config/ApiConfig";
+import axios from "axios";
+import cacheService from "../config/cacheConfig";  // Importamos el cacheService
 
-export const loginUser = (username, password) => {
-  return (
-    users.find(
-      (user) => user.username === username && user.password === password
-    ) || null
-  );
+export const loginUser = async (email, password) => {
+  // Verificamos si ya hay un usuario en caché
+  const usuarioCache = cacheService.obtenerUsuarioCache();
+  if (usuarioCache) {
+    return usuarioCache;  // Si existe en caché, devolvemos el usuario
+  }
+
+  try {
+    const loginResponse = await axios.post(
+      `${ApiConfig.urlApi}/auth/login`, 
+      {
+        email,
+        contrasenna : password,
+      },
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    // Si el login es exitoso, guardamos el usuario en el caché
+    cacheService.cambiarAgregarUsuarioCache(loginResponse.data);
+
+    return loginResponse.data; // Devolvemos la respuesta del login (usuario)
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const registerUser = async (userInfo) => {
+  try {
+    const registerResponse = await axios.post(
+      `${ApiConfig.urlApi}/auth/register`,
+      userInfo,
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    return registerResponse.data;  // Retornamos la respuesta del backend
+  } catch (error) {
+    throw error;
+  }
 };

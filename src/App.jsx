@@ -4,9 +4,12 @@ import {
   Route,
   Navigate,
 } from "react-router-dom";
+
+import toast, { Toaster } from 'react-hot-toast';
+import '@fortawesome/fontawesome-free/css/all.min.css';
 import { AuthProvider } from "./context/AuthContext";
 import ProtectedRoute from "./components/ProtectedRoute";
-
+import './index.css';
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import ClienteHome from "./pages/ClienteHome";
@@ -15,6 +18,8 @@ import VendedorHome from "./pages/VendedorHome";
 
 function App() {
   return (
+    <>\
+    <Toaster/>
     <Router>
       <AuthProvider>
         <Routes>
@@ -36,10 +41,14 @@ function App() {
           <Route element={<ProtectedRoute allowedRoles={["vendedor"]} />}>
             <Route path="/vendedor/home" element={<VendedorHome />} />
           </Route>
+
+          <Route path="*" element={<h1>404 Not Found</h1>} />
         </Routes>
       </AuthProvider>
     </Router>
+    </>
   );
+  
 }
 
 export default App;

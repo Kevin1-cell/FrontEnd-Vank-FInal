@@ -1,6 +1,7 @@
-import { createContext, useContext, useState, useEffect } from "react";
+import { createContext, useContext, useState, useEffect, cache } from "react";
 import { useNavigate } from "react-router-dom";
 import { loginUser } from "../services/authService";
+import cacheService from "../config/cacheConfig"; // Importamos el cacheService
 
 const AuthContext = createContext();
 
@@ -12,46 +13,30 @@ export const AuthProvider = ({ children }) => {
     const authenticatedUser = checkAuth();
     if (authenticatedUser) {
       setUser(authenticatedUser);
-      navigate(`/${authenticatedUser.role.toLowerCase()}/home`); // Redirigir a su home
+      navigate(`/${authenticatedUser.rol.nombreUsuario.toLowerCase()}/home`); // Redirigir a su home
     }
   }, []);
 
   const checkAuth = () => {
-    const storedUser = localStorage.getItem("user");
-  
+    const storedUser = cacheService.obtenerUsuarioCache(); // Usamos el cacheService para obtener el usuario
     if (storedUser) {
-      try {
-        const parsedUser = JSON.parse(storedUser);
-        return parsedUser && parsedUser.username ? parsedUser : null;
-      } catch (error) {
-        console.error("Error parsing JSON:", error);
-        localStorage.removeItem("user"); 
-      }
+      
+      return storedUser;
+
     }
     return null;
   };
   
 
-  const login = (username, password) => {
-    const user = loginUser(username, password);
-
-    if (user && typeof user === "object") {
-      setUser(user);
-      localStorage.setItem("user", JSON.stringify(user)); // Asegurar que se guarda como JSON
-      navigate(`/${user.role}/home`);
-    } else {
-      console.error("Error: el usuario no es un objeto válido.");
-    }
-  };
 
   const logout = () => {
     setUser(null);
-    localStorage.removeItem("user");
+    cacheService.eliminarUsuarioCache(); // Limpiar el cache al cerrar sesión
     navigate("/login");
   };
 
   return (
-    <AuthContext.Provider value={{ user, setUser, login, logout }}>
+    <AuthContext.Provider value={{ user, setUser, logout }}>
       {children}
     </AuthContext.Provider>
   );

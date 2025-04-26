@@ -1,0 +1,365 @@
+/* ===== ESTILOS BASE ===== */
+:root {
+  --primary-color: #3498db;
+  --secondary-color: #2ecc71;
+  --danger-color: #e74c3c;
+  --dark-color: #2c3e50;
+  --light-color: #ecf0f1;
+  --text-dark: #2c3e50;
+  --text-light: #7f8c8d;
+  --shadow-sm: 0 2px 4px rgba(0,0,0,0.1);
+  --shadow-md: 0 4px 8px rgba(0,0,0,0.15);
+  --shadow-lg: 0 8px 16px rgba(0,0,0,0.2);
+  --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  margin: 0;
+  padding: 0;
+  color: var(--text-dark);
+}
+
+/* ===== FONDO CON IMAGEN ===== */
+.dashboard-container {
+  display: flex;
+  min-height: 100vh;
+  background: linear-gradient(135deg, rgba(43, 57, 79, 0.85), rgba(25, 35, 55, 0.9)),
+              url('https://img.freepik.com/fotos-premium/tres-personas-estan-sonriendo-riendo-juntas-grupo-ai_97070-28675.jpg') no-repeat center center fixed;
+  background-size: cover;
+}
+
+/* ===== SIDEBAR (SIN CAMBIOS) ===== */
+.dashboard-sidebar {
+  width: 280px;
+  padding: 10px 20px;
+  position: fixed;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  background-color: rgba(44, 62, 80, 0.9);
+  color: white;
+  backdrop-filter: blur(5px);
+  z-index: 100;
+}
+
+/* ... (mantener los estilos existentes del sidebar) ... */
+
+/* ===== CONTENIDO PRINCIPAL ===== */
+.dashboard-content {
+  flex: 1;
+  margin-left: 340px;
+  padding: 40px;
+  backdrop-filter: blur(5px);
+}
+
+/* ===== SECCIONES PRINCIPALES ===== */
+.seccion-principal {
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 12px;
+  box-shadow: var(--shadow-lg);
+  overflow: hidden;
+  margin-bottom: 30px;
+  transition: var(--transition);
+}
+
+.seccion-principal:hover {
+  box-shadow: 0 12px 24px rgba(0,0,0,0.2);
+}
+
+/* ===== ENCABEZADOS FIJOS ===== */
+.encabezado-seccion {
+  position: sticky;
+  top: 0;
+  background: rgba(255, 255, 255, 0.95);
+  padding: 20px;
+  z-index: 10;
+  border-bottom: 1px solid rgba(0,0,0,0.1);
+  backdrop-filter: blur(5px);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.encabezado-seccion h2 {
+  margin: 0;
+  font-size: 1.5rem;
+  color: var(--dark-color);
+  font-weight: 600;
+}
+
+/* ===== BARRA DE BÚSQUEDA ===== */
+.buscador-container {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+}
+
+.buscador, .buscadorCupon {
+  padding: 12px 15px;
+  border: 1px solid rgba(0,0,0,0.1);
+  border-radius: 8px;
+  background: rgba(255,255,255,0.8);
+  font-size: 14px;
+  transition: var(--transition);
+  min-width: 250px;
+}
+
+.buscador:focus, .buscadorCupon:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+  background: white;
+}
+
+/* ===== PRODUCTOS EN HORIZONTAL ===== */
+.productos-grid {
+  display: flex;
+  gap: 20px;
+  padding: 20px;
+  overflow-x: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--primary-color) rgba(0,0,0,0.1);
+}
+
+.productos-grid::-webkit-scrollbar {
+  height: 8px;
+}
+
+.productos-grid::-webkit-scrollbar-track {
+  background: rgba(0,0,0,0.05);
+  border-radius: 10px;
+}
+
+.productos-grid::-webkit-scrollbar-thumb {
+  background-color: var(--primary-color);
+  border-radius: 10px;
+}
+
+/* ===== TARJETAS DE PRODUCTO ===== */
+.product-card {
+  min-width: 280px;
+  background: white;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  transition: var(--transition);
+  border: 1px solid rgba(0,0,0,0.05);
+}
+
+.product-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-lg);
+}
+
+.product-image {
+  height: 180px;
+  background: linear-gradient(45deg, #f5f7fa, #e4e8eb);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  position: relative;
+}
+
+.product-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.product-card:hover .product-image img {
+  transform: scale(1.05);
+}
+
+.no-image {
+  color: var(--text-light);
+  font-size: 14px;
+}
+
+.product-info {
+  padding: 15px;
+}
+
+.product-info h3 {
+  margin: 0 0 10px 0;
+  font-size: 1.1rem;
+  color: var(--dark-color);
+}
+
+.product-info p {
+  margin: 5px 0;
+  color: var(--text-light);
+  font-size: 0.9rem;
+}
+
+/* ===== CONTADOR Y BOTÓN DE COMPRA ===== */
+.producto-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.quantity-selector {
+  display: flex;
+  align-items: center;
+  background: #f8f9fa;
+  border-radius: 20px;
+  padding: 5px;
+}
+
+.quantity-btn {
+  width: 30px;
+  height: 30px;
+  border: none;
+  background: #e0e0e0;
+  border-radius: 50%;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition);
+}
+
+.quantity-btn:hover {
+  background: var(--primary-color);
+  color: white;
+}
+
+.quantity {
+  min-width: 30px;
+  text-align: center;
+  font-weight: 600;
+}
+
+.buy-btn {
+  flex: 1;
+  padding: 10px;
+  background: var(--secondary-color);
+  color: white;
+  border: none;
+  border-radius: 20px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.buy-btn:hover {
+  background: #27ae60;
+  transform: translateY(-2px);
+}
+
+/* ===== SECCIÓN DE HISTORIAL ===== */
+.historial-compras-container {
+  padding: 0;
+}
+
+.tabla-contenedor {
+  padding: 20px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+}
+
+th, td {
+  padding: 15px;
+  text-align: left;
+  border-bottom: 1px solid rgba(0,0,0,0.05);
+}
+
+th {
+  background-color: rgba(52, 152, 219, 0.1);
+  color: var(--dark-color);
+  font-weight: 600;
+}
+
+tr:hover {
+  background-color: rgba(52, 152, 219, 0.05);
+}
+
+/* ===== SECCIÓN DE CUPONES ===== */
+.cupones-container {
+  padding: 20px;
+}
+
+.cupones-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.cupon-card {
+  background: white;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: var(--shadow-sm);
+  transition: var(--transition);
+  border-left: 4px solid var(--secondary-color);
+}
+
+.cupon-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-lg);
+}
+
+.cupon-card h3 {
+  margin-top: 0;
+  color: var(--dark-color);
+  font-size: 1.2rem;
+}
+
+.cupon-card p {
+  color: var(--text-light);
+  margin: 5px 0;
+}
+
+/* ===== EFECTOS ESPECIALES ===== */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.seccion-principal {
+  animation: fadeIn 0.5s ease-out;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  .dashboard-content {
+    margin-left: 0;
+    padding: 20px;
+  }
+  
+  .dashboard-sidebar {
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+  }
+  
+  .dashboard-sidebar.active {
+    transform: translateX(0);
+  }
+  
+  .productos-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .buscador-container {
+    flex-direction: column;
+  }
+  
+  .buscador, .buscadorCupon {
+    width: 100%;
+  }
+}
